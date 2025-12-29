@@ -165,10 +165,14 @@ export default function DashboardPage() {
         const parsed = JSON.parse(stored) as LeagueData;
         setLeagueData(parsed);
         // Set default selected team to first team
-        if (parsed.teams && parsed.teams.length > 0) {
+        if (selectedTeamName) {
+          setSelectedTeamName(selectedTeamName);
+        } else if (parsed.teams && parsed.teams.length > 0) {
           setSelectedTeamName(parsed.teams[0].team_name);
         } else if (parsed.rosters && Object.keys(parsed.rosters).length > 0) {
           setSelectedTeamName(Object.keys(parsed.rosters)[0]);
+        } else {
+          setSelectedTeamName("My Team");
         }
       }
     } catch (error) {
@@ -395,6 +399,45 @@ export default function DashboardPage() {
 
         {/* Main Content - adjusted margin for wider sidebar */}
         <main className="ml-96 flex-1 p-8">
+              <button
+                className="group relative overflow-hidden rounded-2xl bg-slate-800/50 backdrop-blur border border-slate-700/50 p-6 text-left transition-all duration-300 hover:scale-[1.02] hover:border-slate-600/50 hover:shadow-2xl hover:shadow-slate-900/50"
+              >
+                {/* Gradient overlay on hover */}
+                <div className={cn(
+                  "absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-300 bg-gradient-to-br",
+                  "from-emerald-500 to-blue-600"
+                )} />
+
+                {/* Icon */}
+                <div className={cn(
+                  "w-12 h-12 rounded-xl bg-gradient-to-br flex items-center justify-center text-2xl mb-4 shadow-lg",
+                  "from-emerald-500 to-blue-600"
+                )}>
+                  🚀
+                </div>
+
+                {/* Content */}
+                <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-white/90">
+                  Fantasy Wrapped
+                </h3>
+                <p className="text-sm text-slate-400 leading-relaxed">
+                  Come see your personalized season recap!
+                </p>
+
+                {/* Status badge */}
+                <div className="mt-4 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-700/50 text-xs font-medium text-slate-300">
+                  <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
+                  Coming Soon
+                </div>
+
+                {/* Arrow indicator */}
+                <div className="absolute top-6 right-6 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <svg className="w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </div>
+              </button>
+
           {/* Header */}
           <div className="mb-8">
             <h2 className="text-3xl font-bold text-white tracking-tight">Fantasy Tools</h2>
